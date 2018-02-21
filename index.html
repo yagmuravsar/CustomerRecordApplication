@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>CUSTOMER RECORDS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./jquery-ui.min.css">
+    <link rel="stylesheet" href="./bootstrap.min.css">
+    <style type="text/css">
+        input[type="text"].error {
+            border: 1px solid #DF0101;
+        }
+
+        input[type="text"].valid {
+            border: 1px solid rgb(15, 202, 15);
+        }
+
+        textarea.error {
+            border: 1px solid #DF0101;
+        }
+
+        textarea.valid {
+            border: 1px solid rgb(15, 202, 15);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="conteiner">
+        <div class="row">
+            <div class="col-md-7">
+                <h2>CUSTOMER RECORD FORM</h2>
+                <hr>
+                <div class="panel-group">
+                    <form id="customerform">
+                        <div class="form-group row">
+                            <label for="customer_no" class="col-2 col-form-label">Customer No</label>
+                            <div class="col-10">
+                                <input type="text" class="form-control" id="customer_no" name="customerNo" placeholder="Customer No">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="customer_name" class="col-2 col-form-label">Customer Name</label>
+                            <div class="col-10">
+                                <input type="text" class="form-control" id="customer_name" name="customerName" placeholder="Customer Name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="customer_surname" class="col-2 col-form-label">Customer Surname</label>
+                            <div class="col-10">
+                                <input type="text" class="form-control" id="customer_surname" name="customerSurname" placeholder="Customer Surname">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="customer_email" class="col-2 col-form-label">Customer E-Mail</label>
+                            <div class="col-10">
+                                <input type="text" class="form-control" id="customer_email" name="customerEmail" placeholder="Customer E-Mail">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="customer_national_id" class="col-2 col-form-label">Customer National ID</label>
+                            <div class="col-10">
+                                <input type="text" class="form-control" id="customer_national_id" name="customerNationalId" placeholder="Customer National ID">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="customer_phone_number" class="col-2 col-form-label">Customer Phone</label>
+                            <div class="col-10">
+                                <input type="text" class="form-control" id="customer_phone_number" name="customerPhoneNumber" placeholder="Customer Phone">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="customer_address" class="col-2 col-form-label">Customer Address</label>
+                            <div class="col-10">
+                                <textarea placeholder="Customer Address" class="form-control" id="customer_address" name="customerAddress" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="customer_birth_date" class="col-2 col-form-label">Customer Birth Date</label>
+                            <div class="col-10">
+                                <input type="text" id="datepicker" name="customerBirthDate">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-block" onclick="saveCustomer();">Save</button>
+                    </form>
+                </div>
+                <div id="messageBox"></div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col">
+                <h3>CUSTOMER DETAILS</h3>
+                <hr>
+                <div id="customerTable"></div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Customer Update Panel</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="customerUpdateForm">
+                        <div class="form-group row">
+                            <label for="ucustomerId" class="col-2 col-form-label">Customer ID</label>
+                            <div class="col-10">
+                                <input type="text" class="form-control" id="ucustomerId" name="id" placeholder="Customer ID" readonly="true">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="ucustomerAddress" class="col-2 col-form-label">Customer Address</label>
+                            <div class="col-10">
+                                <textarea type="text" class="form-control" id="ucustomerAddress" name="customerAddress" placeholder="Customer Address"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="ucustomerPhoneNumber" class="col-2 col-form-label">Customer Phone</label>
+                            <div class="col-10">
+                                <input type="text" class="form-control" id="ucustomerPhoneNumber" name="customerPhoneNumber" placeholder="Customer Phone">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="ucustomerEmail" class="col-2 col-form-label">Customer E-Mail</label>
+                            <div class="col-10">
+                                <input type="text" class="form-control" id="ucustomerEmail" name="customerEmail" placeholder="Customer E-Mail">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="updateCustomer();">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="./jquery.js" type="text/javascript"></script>
+    <script src="./popper.min.js"></script>
+    <script src="./bootstrap.min.js" type="text/javascript"></script>
+    <script src="./jquery.validate.min.js" type="text/javascript"></script>
+    <script src="./jquery-ui.min.js" type="text/javascript"></script>
+</body>
+
+</html>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        console.log('READY !');
+        $("#datepicker").datepicker({'dateFormat':'dd/mm/yy'}).datepicker('setDate', new Date());
+        $.extend({
+            postJSON: function (url, data, callback) {
+                return $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: JSON.stringify(data),
+                    success: callback,
+                    contentType: "application/json;charset=utf-8;",
+                    processData: false
+                });
+            }
+        });
+        getCustomerList();
+        $('#customerform').validate({
+            onkeyup: false,
+            onfocusout: false,
+            onsubmit: false,
+            debug: false,
+            rules: {
+                customerNo: {
+                    required: true,
+                    maxlength: 10
+                },
+                customerName: {
+                    required: true,
+                    maxlength: 20
+                },
+                customerSurname: {
+                    required: true,
+                    maxlength: 30
+                },
+                customerEmail: {
+                    required: true,
+                    email: true
+                },
+                customerNationalId: {
+                    required: true,
+                    maxlength: 11
+                },
+                customerPhoneNumber: {
+                    required: true,
+                    maxlength: 10
+                },
+                customerAddress: {
+                    required: true,
+                    maxlength: 100
+                }
+            },
+            messages: {
+                customerNo: {
+                    required: 'Please enter the Customer No.',
+                    maxlength: 'Character Limit Exceeded for Customer No.'
+                },
+                customerName: {
+                    required: 'Please enter the Customer Name',
+                    maxlength: 'Character Limit Exceeded for Customer Name.'
+                },
+                customerSurname: {
+                    required: 'Please enter the Customer Surname',
+                    maxlength: 'Character Limit Exceeded for Customer Name.'
+                },
+                customerEmail: {
+                    required: 'Please enter the Customer e-mail',
+                    email: 'Please enter a valid Customer e-mail address.'
+                },
+                customerNationalId: {
+                    required: 'Please enter the Customer National ID',
+                    maxlength: 'Character Limit Exceeded for National ID.'
+                },
+                customerPhoneNumber: {
+                    required: 'Please enter the Customer Phone Number.',
+                    maxlength: 'Character Limit Exceeded for Customer Phone Number.'
+                },
+                customerAddress: {
+                    required: 'Please enter the Customer Address.',
+                    maxlength: 'Character Limit Exceeded for Customer Address.'
+                }
+            }
+        });
+    });
+
+    class CustomerService {
+        constructor() { };
+
+        getCustomerList() {
+            var deferred = $.Deferred();
+            $.get('http://localhost:8080/customer/getCustomers').done(function (response) {
+                deferred.resolve(response);
+            }).fail(function (err) {
+                deferred.reject(err);
+            });
+            return deferred.promise();
+        }
+
+        saveCustomer(p_data) {
+            var deferred = $.Deferred();
+            $.postJSON('http://localhost:8080/customer/add', p_data).done(function (response) {
+                deferred.resolve(response);
+            }).fail(function (err) {
+                deferred.reject(err);
+            });
+            return deferred.promise();
+        }
+
+        saveOrUpdateCustomer(p_data) {
+            var deferred = $.Deferred();
+            $.postJSON('http://localhost:8080/customer/saveOrUpdate', p_data).done(function (response) {
+                deferred.resolve(response);
+            }).fail(function (err) {
+                deferred.reject(err);
+            });
+            return deferred.promise();
+        }
+
+        deleteCustomer(p_data) {
+            var deferred = $.Deferred();
+            $.postJSON('http://localhost:8080/customer/delete', p_data).done(function (response) {
+                deferred.resolve(response);
+            }).fail(function (err) {
+                deferred.reject(err);
+            });
+            return deferred.promise();
+        }
+
+        updateCustomer(p_data) {
+            var deferred = $.Deferred();
+            $.postJSON('http://localhost:8080/customer/update', p_data).done(function (response) {
+                deferred.resolve(response);
+            }).fail(function (err) {
+                deferred.reject(err);
+            });
+            return deferred.promise();
+        }
+    }
+
+    function saveCustomer() {
+        if ($('#customerform').valid()) {
+            console.log($('#customerform').serializeArray());
+            let customerFormArray = $('#customerform').serializeArray();
+            let customer = {}
+            $(customerFormArray).each(function (index, element) {
+                customer[element.name] = element.value;
+            });
+            var _CustomerService = new CustomerService();
+            _CustomerService.saveCustomer(customer).done(function (response) {
+                getCustomerList();
+            }).fail(function (err) {
+                alert(err);
+            })
+        }
+    }
+
+    function deleteCustomer(id) {
+        var _CustomerService = new CustomerService();
+        _CustomerService.deleteCustomer({ 'id': id }).done(function (response) {
+            getCustomerList();
+        }).fail(function (err) {
+            alert(err.message);
+        });
+    }
+
+    function getCustomerList() {
+        var _CustomerService = new CustomerService();
+        _CustomerService.getCustomerList().done(function (response) {
+            createCustomerTable(response);
+        }).fail(function (err) {
+            console.log(err);
+        });
+    }
+
+    function openCustomerUpdateModal(element) {
+        $(element).parent().parent().children().each(function (index) {
+            if (index == 0) {
+                $('#ucustomerId').val($(this)[0].innerHTML);
+            }
+            if (index == 4) {
+                $('#ucustomerEmail').val($(this)[0].innerHTML);
+            }
+            if (index == 6) {
+                $('#ucustomerPhoneNumber').val($(this)[0].innerHTML);
+            }
+            if (index == 7) {
+                $('#ucustomerAddress').val($(this)[0].innerHTML);
+            }
+        });
+        $('#myModal').modal('show');
+    }
+
+    function updateCustomer() {
+        let customer = {
+            'id': null,
+            'customerAddress': null,
+            'customerPhoneNumber': null,
+            'customerEmail': null
+        };
+        let customerUpdateFormArray = $('#customerUpdateForm').serializeArray();
+        $(customerUpdateFormArray).each(function (index, element) {
+            console.log(element.name);
+            customer[element.name] = element.value;
+        });
+        console.log(customer);
+        var _CustomerService = new CustomerService();
+        _CustomerService.updateCustomer(customer).done(function (response) {
+            getCustomerList();
+            $('#myModal').modal('hide');
+        }).fail(function (err) {
+            alert(err.message);
+        });
+    }
+
+
+    function createCustomerTable(customers) {
+        let tableDom = '<table class="table table-bordered">' +
+            '<thead>' +
+            '<tr>' +
+            '<th>Customer ID</th>' +
+            '<th>Customer No</th>' +
+            '<th>Customer Name</th>' +
+            '<th>Customer Surname</th>' +
+            '<th>Customer E-Mail</th>' +
+            '<th>Customer National ID</th>' +
+            '<th>Customer Phone</th>' +
+            '<th>Customer Address</th>' +
+            '<th>Customer Birth Date</th>' +
+            '<th>||</th>' +
+            '</tr>' +
+            '</thead>' +
+            '<tbody>' +
+            '###CUSTOMERS###' +
+            '</tbody>' +
+            '</table>';
+        let tableTbody = '';
+        $(customers).each(function (index, element) {
+            tableTbody = tableTbody + '<tr>' +
+                '<th scope="row">' + element.id + '</th>' +
+                '<td>' + element.customerNo + '</td>' +
+                '<td>' + element.customerName + '</td>' +
+                '<td>' + element.customerSurname + '</td>' +
+                '<td>' + element.customerEmail + '</td>' +
+                '<td>' + element.customerNationalId + '</td>' +
+                '<td>' + element.customerPhoneNumber + '</td>' +
+                '<td>' + element.customerAddress + '</td>' +
+                '<td>' + element.customerBirthDate + '</td>' +
+                '<td>' + '<button type="button" class="btn btn-info btn-block" onclick="openCustomerUpdateModal(this);">EDIT</button><button type="button" class="btn btn-danger btn-block" onclick="deleteCustomer(' + element.id + ');">DELETE</button>' + '</td>' +
+                '</tr>';
+        });
+        tableDom = tableDom.replace('###CUSTOMERS###', tableTbody);
+        $('#customerTable').html('');
+        $('#customerTable').append(tableDom);
+    }
+</script>
